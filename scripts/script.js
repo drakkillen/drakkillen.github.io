@@ -51,7 +51,7 @@ function readChatbox() {
       amountItem.shift()
       amountItem.join(" ")
       //splits at amount letter x
-      let removeSeren = amountXitem.split("x")
+       removeSeren = amountXitem.split("x")
       
       
       console.log(removeSeren)
