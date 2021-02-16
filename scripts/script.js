@@ -55,7 +55,7 @@ function readChatbox() {
       //removes item amount part from item array
       removeSeren.shift()
       //joins the array back to a string
-     let item = removeSeren.join(" ")
+     item = removeSeren.join(" ")
       console.log(item)
       console.log("Amount: " + amount + " | " + item)
     }
