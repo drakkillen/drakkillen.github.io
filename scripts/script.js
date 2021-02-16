@@ -37,7 +37,7 @@ function readChatbox() {
 
   for (a in opts) {
     if(opts[a].text.includes("The Seren spirit gifts you")){
-      console.log(opts[a])
+       console.log(opts[a])
       //split at ] of time stamp
       let item = opts[a].text.split("]")
       //removes timestamp part of the array
@@ -48,13 +48,15 @@ function readChatbox() {
       console.log(amountXitem)
       //item.shift()
       //splits at amount letter x
-      item.join(" ")
-      item.split("x")
-      let amount = item[0]
+      let removeSeren = amountXitem.split("x")
+      console.log(removeSeren)
+      removeSeren.shift()
+      let amount = removeSeren[0]
       //removes item amount part from item array
-      item.shift()
+      removeSeren.shift()
       //joins the array back to a string
-      item = item.join(" ")
+     let item = removeSeren.join(" ")
+      console.log(item)
       console.log("Amount: " + amount + " | " + item)
     }
     chat += opts[a].text + " ";
