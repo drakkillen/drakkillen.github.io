@@ -42,12 +42,11 @@ function readChatbox() {
       let item = opts[a].text.split("]")
       //removes timestamp part of the array
       item.shift()
-      item.join(" ")
       //split at the : to isolate "amount x item"
-      console.log(item)
-      item = item.split(":")
+      var amountXitem = item.join("")
       //removes "The Seren spirit gifts you" part
-      item.shift()
+      console.log(amountXitem)
+      //item.shift()
       //splits at amount letter x
       item.join(" ")
       item.split("x")
