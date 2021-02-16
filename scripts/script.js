@@ -44,8 +44,6 @@ function readChatbox() {
   if (loot != null && loot.length > -1) actions++;
   for (var x in loot) {
     count = Number(loot[x].match(/\d+/)); //1
-    mats = loot[x].match(/[^You receive \d]\w+( \w+)?/)[0]; //Junk
-    if (!mats.match(/parts|components|Junk/)) mats += "s";
     if (lootList[mats]) {
       lootList[mats].qty += count; //add count to index of second list.
       tidyTable(mats);
@@ -58,29 +56,8 @@ function readChatbox() {
 
 function buildTable() {
   for (x in lootList) {
-    if (lootList[x].type === "ancient") {
-      $(".ancient").append(
-        `<tr data-name="${x}"><td>${
-          x.split(" ")[0]
-        }</td><td class='qty'></td></tr>`
-      );
-    }
-    if (lootList[x].type === "rare") {
-      $(".rare").append(
-        `<tr data-name="${x}"><td>${
-          x.split(" ")[0]
-        }</td><td class='qty'></td></tr>`
-      );
-    }
-    if (lootList[x].type === "uncommon") {
-      $(".uncommon").append(
-        `<tr data-name="${x}"><td>${
-          x.split(" ")[0]
-        }</td><td class='qty'></td></tr>`
-      );
-    }
-    if (lootList[x].type === "common") {
-      $(".common").append(
+    if (lootList[x].type === "Item") {
+      $(".Item").append(
         `<tr data-name="${x}"><td>${
           x.split(" ")[0]
         }</td><td class='qty'></td></tr>`
