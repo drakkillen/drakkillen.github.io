@@ -44,6 +44,7 @@ function readChatbox() {
       item.shift()
       item.join(" ")
       //split at the : to isolate "amount x item"
+      console.log(item)
       item = item.split(":")
       //removes "The Seren spirit gifts you" part
       item.shift()
