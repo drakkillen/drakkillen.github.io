@@ -18,7 +18,7 @@ reader.read(); //Get the initial read, to not report on initial load.
 try {
   var p = reader.pos;
   alt1.overLayRect(
-    a1lib.mixcolor(255, 255, 255),
+    a1lib.mixcolor(0, 255, 255),
     p.mainbox.rect.x,
     p.mainbox.rect.y,
     p.mainbox.rect.width,
