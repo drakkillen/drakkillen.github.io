@@ -39,20 +39,6 @@ function readChatbox() {
     chat += opts[a].text + " ";
   }
   console.log(opts)
-   var loot = chat.match(
-    /\d+ x [\w-]+( \w+)?[^\d+:]|The Seren spirit \d+ [\w-]+( \w+)?[^\d+:]/g
-  );
- console.log(loot)
-  if (loot != null && loot.length > -1) actions++;
-  for (var x in loot) {
-    count = Number(loot[x].match(/\d+/)); //1
-    if (lootList[mats]) {
-      lootList[mats].qty += count; //add count to index of second list.
-      tidyTable(mats);
-    } else {
-      console.warn("Invalid component.  Ignoring.");
-      continue;
-    }
-  }
+  
 }
 
