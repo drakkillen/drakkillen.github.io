@@ -36,11 +36,11 @@ function readChatbox() {
   var chat = "";
 
   for (a in opts) {
+    opts[a].text = "[20:27:04] The Seren spirit gifts you : 1 x Tooth half of a key"
     if(opts[a].text.includes("The Seren spirit gifts you")){
-       console.log(opts[a])
+      console.log(opts[a])
       //split at ] of time stamp
       //removes timestamp part of the array
-      opts[a].text = "[20:27:04] The Seren spirit gifts you : 1 x Tooth half of a key"
       let item = opts[a].text.split("]")
       item.shift()
       
@@ -71,3 +71,34 @@ function readChatbox() {
   
 }
 
+function test(){
+  opts[a].text = "[20:27:04] The Seren spirit gifts you : 1 x Tooth half of a key"
+    if(opts[a].text.includes("The Seren spirit gifts you")){
+      console.log(opts[a])
+      //split at ] of time stamp
+      //removes timestamp part of the array
+      let item = opts[a].text.split("]")
+      item.shift()
+      
+      //split at the : to isolate "amount x item"
+      var removeSeren = item.join("")
+      let amountItem = removeSeren.split(":")
+      //removes "The Seren spirit gifts you" part
+      amountItem.shift()
+      amountItem.join(" ")
+      //splits at amount letter x
+       removeSeren = amountXitem.split("x")
+      
+      
+      console.log(removeSeren)
+      let amount = removeSeren[0]
+      //removes item amount part from item array
+      removeSeren.shift()
+      //joins the array back to a string
+     item = removeSeren.join(" ")
+      console.log(item)
+      console.log("Amount: " + amount + " | " + item)
+    }
+    chat += opts[a].text + " ";
+   
+}
