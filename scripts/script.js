@@ -37,8 +37,10 @@ function readChatbox() {
 
   for (a in opts) {
     chat += opts[a].text + " ";
+  console.log(chat) 
   }
-  console.log(opts)
+ 
+ 
   
 }
 
