@@ -38,7 +38,7 @@ function readChatbox() {
   for (a in opts) {
     chat += opts[a].text + " ";
   }
-
+  console.log(opts)
   var loot = chat.match(
     /The seren spirit gifts you/g
   );
