@@ -1,0 +1,193 @@
+var reader = new ChatBoxReader();
+reader.readargs = {
+  colors: [
+    a1lib.mixcolor(255, 255, 255), //Common Mats
+    a1lib.mixcolor(255, 128, 0), //Uncommon Mats
+    a1lib.mixcolor(255, 165, 0), //Scavenging loot
+    a1lib.mixcolor(255, 0, 0), //Rare Mats
+    a1lib.mixcolor(67, 188, 188), //Ancient components
+  ],
+  backwards: true,
+};
+reader.find(); //Find the chat box.
+reader.read(); //Get the initial read, to not report on initial load.
+
+//Attempt to show a temporary rectangle around the chatbox.  skip if overlay is not enabled.
+try {
+  var p = reader.pos;
+  alt1.overLayRect(
+    a1lib.mixcolor(255, 255, 255),
+    p.mainbox.rect.x,
+    p.mainbox.rect.y,
+    p.mainbox.rect.width,
+    p.mainbox.rect.height,
+    2000,
+    1
+  );
+} catch {}
+
+var count, mats, index;
+var actions = 0;
+
+function readChatbox() {
+  var opts = reader.read() || [];
+  var chat = "";
+
+  for (a in opts) {
+    chat += opts[a].text + " ";
+  }
+
+  var loot = chat.match(
+    /The seren spirit gifts you/g
+  );
+ console.log(loot)
+  if (loot != null && loot.length > -1) actions++;
+  for (var x in loot) {
+    count = Number(loot[x].match(/\d+/)); //1
+    mats = loot[x].match(/[^You receive \d]\w+( \w+)?/)[0]; //Junk
+    if (!mats.match(/parts|components|Junk/)) mats += "s";
+    if (lootList[mats]) {
+      lootList[mats].qty += count; //add count to index of second list.
+      tidyTable(mats);
+    } else {
+      console.warn("Invalid component.  Ignoring.");
+      continue;
+    }
+  }
+}
+
+function buildTable() {
+  for (x in lootList) {
+    if (lootList[x].type === "ancient") {
+      $(".ancient").append(
+        `<tr data-name="${x}"><td>${
+          x.split(" ")[0]
+        }</td><td class='qty'></td></tr>`
+      );
+    }
+    if (lootList[x].type === "rare") {
+      $(".rare").append(
+        `<tr data-name="${x}"><td>${
+          x.split(" ")[0]
+        }</td><td class='qty'></td></tr>`
+      );
+    }
+    if (lootList[x].type === "uncommon") {
+      $(".uncommon").append(
+        `<tr data-name="${x}"><td>${
+          x.split(" ")[0]
+        }</td><td class='qty'></td></tr>`
+      );
+    }
+    if (lootList[x].type === "common") {
+      $(".common").append(
+        `<tr data-name="${x}"><td>${
+          x.split(" ")[0]
+        }</td><td class='qty'></td></tr>`
+      );
+    }
+  }
+}
+
+function tidyTable(flashRow) {
+  localStorage.mats = JSON.stringify(lootList);
+  for (x in lootList) {
+    $(`[data-name='${x}'] > .qty`).text(lootList[x].qty);
+    if (lootList[x].qty === 0) {
+      $(`[data-name='${x}']`).hide();
+    } else {
+      $(`[data-name='${x}']`).show();
+    }
+  }
+  $(`[data-name='${mats}']`)
+    .css({ "background-color": "lime" })
+    .animate(
+      {
+        backgroundColor: $.Color("rgba(0, 0, 0, 0)"),
+      },
+      500,
+      function () {
+        $(this).removeAttr("style");
+      }
+    );
+
+  $(".actions").text(actions);
+}
+
+buildTable();
+tidyTable();
+
+$(".edit").change(function () {
+  if ($(this).is(":checked")) {
+    if ($(".tracker").text() == "Stop") {
+      $(".tracker").click();
+    }
+    $("tr:hidden").show();
+    $(".qty")
+      .attr("contenteditable", "true")
+      .focus(function () {
+        document.execCommand("selectAll", false, null);
+      });
+  } else {
+    $(".qty").removeAttr("contenteditable");
+    for (x in lootList) {
+      lootList[x].qty = parseInt($(`[data-name='${x}'] .qty`).text());
+    }
+    tidyTable();
+  }
+});
+
+$("button.tracker")
+  .click(function () {
+    if ($(this).html() == "Start") {
+      console.log("Starting tracker");
+      tracking = setInterval(function () {
+        readChatbox();
+      }, 600);
+      $(this).html("Stop");
+    } else {
+      console.log("Stopping tracker");
+      $(this).html("Start");
+      clearInterval(tracking);
+    }
+  })
+  .click();
+
+$("button.clear").click(function () {
+  localStorage.removeItem("mats");
+  for (x in lootList) {
+    lootList[x].qty = 0;
+  }
+  actions = 0;
+  location.reload();
+});
+
+$(".toggleMenu").click(function () {
+  $(".options").toggle();
+});
+
+$(".export").click(function () {
+  var str = "ComponentName,Quantity\n"; // column headers
+  for (x in lootList) {
+    str = str + x + "," + lootList[x].qty + "\n";
+  }
+  //return str;
+  var blob = new Blob([str], { type: "text/csv;charset=utf-8;" });
+  if (navigator.msSaveBlob) {
+    // IE 10+
+    navigator.msSaveBlob(blob, "componentExport.csv");
+  } else {
+    var link = document.createElement("a");
+    if (link.download !== undefined) {
+      // feature detection
+      // Browsers that support HTML5 download attribute
+      var url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", "componentExport.csv");
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+});
