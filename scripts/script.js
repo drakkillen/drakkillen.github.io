@@ -37,9 +37,10 @@ function readChatbox() {
 
   for (a in opts) {
     if(opts[a].text.includes("The Seren spirit gifts you")){
+      console.log(opts[a])
       let item = opts[a].text.split("]")
       item.shift()
-      
+
       console.log(item)
     }
     chat += opts[a].text + " ";
