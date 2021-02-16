@@ -36,8 +36,11 @@ function readChatbox() {
   var chat = "";
 
   for (a in opts) {
+    if(opts[a].text.includes("The Seren spirit gifts you")){
+      console.log(opts[a].text)
+    }
     chat += opts[a].text + " ";
-  console.log(chat) 
+   
   }
  
  
