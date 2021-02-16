@@ -46,7 +46,7 @@ function readChatbox() {
       var amountXitem = item.join("")
       //removes "The Seren spirit gifts you" part
       console.log(amountXitem)
-      //item.shift()
+      item.shift()
       //splits at amount letter x
       let removeSeren = amountXitem.split("x")
       console.log(removeSeren)
