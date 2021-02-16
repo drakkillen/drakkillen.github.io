@@ -3,7 +3,7 @@
     "description": "Logs the loot you get from seren spirit",
     "appUrl": "https://drakkillen.github.io/",
     "configUrl": "https://drakkillen.github.io/appconfig.json",
-    "iconUrl": "https://drakkillen.github.io//images/seren_spirit.png",
+    "iconUrl": "https://drakkillen.github.io/images/seren_spirit.png",
     "defaultWidth": 197,
     "defaultHeight": 236,
     "requestHandlers": [],
