@@ -1,3 +1,9 @@
+if (window.alt1) {
+  //tell alt1 about the app
+  //this makes alt1 show the add app button when running insane the embedded browser
+  //also updates app settings if they are changed
+  alt1.identifyAppUrl("./appconfig.json");
+}
 var reader = new ChatBoxReader();
 reader.readargs = {
   colors: [
